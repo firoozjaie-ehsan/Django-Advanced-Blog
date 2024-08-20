@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView
 from .models import Post
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView
+from rest_framework.decorators import api_view
 from .forms import  PostForm
 from django.views.generic.edit import UpdateView,CreateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -74,3 +74,8 @@ class PostsEditView(LoginRequiredMixin,UpdateView):
 class PostDeleteView(LoginRequiredMixin,DeleteView):
     model = Post
     success_url = "/blog/posts/"
+    
+
+@api_view(['GET'])
+def Post_ListView(request):
+    return Response({"name": "Ehsan"})
