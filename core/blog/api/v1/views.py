@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListCreateAPIView
 from rest_framework import mixins
 
 # create function based view
@@ -60,17 +60,11 @@ class PostList(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         '''
 
-class PostList(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+class PostList(ListCreateAPIView):
     """getting a list of posts and creating new post"""
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
-    def get(self, request, *args, **kwargs):
-        """retrieves a list of posts"""
-        return self.list(request, *args, **kwargs)
-    def post(self, request, *args, **kwargs):
-        """creates a new post with provided data"""
-        return self.create(request, *args, **kwargs)
 
 class PostDetail(APIView):
     """getting a post, updating it and deleting it"""
