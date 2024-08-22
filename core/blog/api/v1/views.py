@@ -7,8 +7,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView
-
+from rest_framework.generics import GenericAPIView
+from rest_framework import mixins
 
 # create function based view
 '''
@@ -42,7 +42,7 @@ def PostDetail(request, id):
         return Response({"detail":"Item removed successfully"},status=status.HTTP_204_NO_CONTENT)
         '''
 
-
+'''
 class PostList(APIView):
     """getting a list of posts and creating new post"""
     permission_classes = [IsAuthenticated]
@@ -58,8 +58,20 @@ class PostList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        
+        '''
+
+class PostList(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    """getting a list of posts and creating new post"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
+    def get(self, request, *args, **kwargs):
+        """retrieves a list of posts"""
+        return self.list(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        """creates a new post with provided data"""
+        return self.create(request, *args, **kwargs)
+
 class PostDetail(APIView):
     """getting a post, updating it and deleting it"""
     permission_classes = [IsAuthenticatedOrReadOnly]
