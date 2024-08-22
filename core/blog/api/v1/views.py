@@ -42,6 +42,7 @@ def PostDetail(request, id):
         return Response({"detail":"Item removed successfully"},status=status.HTTP_204_NO_CONTENT)
         '''
 
+# example for class based rest views
 '''
 class PostList(APIView):
     """getting a list of posts and creating new post"""
@@ -59,13 +60,7 @@ class PostList(APIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         '''
-
-
-class PostList(ListCreateAPIView):
-    """getting a list of posts and creating new post"""
-    permission_classes = [IsAuthenticated]
-    serializer_class = PostSerializer
-    queryset = Post.objects.filter(status=True)
+        
 
 '''
 class PostDetail(APIView):
@@ -93,6 +88,12 @@ class PostDetail(APIView):
         return Response({"detail":"Item removed successfully"},status=status.HTTP_204_NO_CONTENT)
     '''
     
+# Example for GenericAPIView for class based views
+class PostList(ListCreateAPIView):
+    """getting a list of posts and creating new post"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
 class PostDetail(RetrieveUpdateDestroyAPIView):
     """getting a post, updating it and deleting it"""
     permission_classes = [IsAuthenticatedOrReadOnly]
