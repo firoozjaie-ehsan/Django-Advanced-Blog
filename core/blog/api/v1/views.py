@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework import mixins
+from rest_framework import mixins, viewsets
 
 # create function based view
 '''
@@ -100,3 +100,31 @@ class PostDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
     
+# Example for viewSet in CBV
+class PostViewSet(viewsets.ViewSet):
+    """getting a list of posts and creating new post"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
+    
+    def list(self, request):
+        """retrieves a list of posts"""
+        serializer = self.serializer_class(self.queryset, many=True)
+        return Response(serializer.data)
+    def retrieve(self, request, pk=None):
+        """retrieves a single post"""
+        post_object = get_object_or_404(Post, pk=pk)
+        serializer = self.serializer_class(post_object)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        pass
+    
+    def update(self, request, pk=None):
+        pass
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
