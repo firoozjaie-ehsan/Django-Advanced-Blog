@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, I
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import mixins, viewsets
+from .permissions import IsOwnerOrReadOnly
 
 # create function based view
 '''
@@ -89,21 +90,21 @@ class PostDetail(APIView):
     '''
     
 # Example for GenericAPIView for class based views
-class PostList(ListCreateAPIView):
-    """getting a list of posts and creating new post"""
-    permission_classes = [IsAuthenticated]
-    serializer_class = PostSerializer
-    queryset = Post.objects.filter(status=True)
-class PostDetail(RetrieveUpdateDestroyAPIView):
-    """getting a post, updating it and deleting it"""
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    serializer_class = PostSerializer
-    queryset = Post.objects.filter(status=True)
+# class PostList(ListCreateAPIView):
+#     """getting a list of posts and creating new post"""
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = PostSerializer
+#     queryset = Post.objects.filter(status=True)
+# class PostDetail(RetrieveUpdateDestroyAPIView):
+#     """getting a post, updating it and deleting it"""
+#     permission_classes = [IsAuthenticatedOrReadOnly]
+#     serializer_class = PostSerializer
+#     queryset = Post.objects.filter(status=True)
     
 # Example for viewSet in CBV
 class PostModelViewSet(viewsets.ModelViewSet):
     """getting a list of posts and creating new post"""
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
 
