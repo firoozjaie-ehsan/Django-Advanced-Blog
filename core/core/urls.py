@@ -25,12 +25,12 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="Blog API ",
       default_version='v1',
-      description="Test description",
+      description="this is a api for my django test project",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      contact=openapi.Contact(email="firoozjaieehsan@gmail.com",),
+      license=openapi.License(name="MIT License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
@@ -42,7 +42,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('api-docs/', include_docs_urls(title= 'api_sample')),
-    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/outpot.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
