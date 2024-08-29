@@ -1,6 +1,5 @@
 from rest_framework import generics
-from django.core.mail import send_mail
-
+from mail_templated import send_mail
 from ...models import Profile
 from .serializers import CustomAuthTokenSerializer, RegistrationSerializer,CustomTokenObtainPairSerializer, ChangepasswordSerializer,ProfileSerializer
 from rest_framework.response import Response
@@ -87,11 +86,5 @@ class ProfileAPIView(generics.RetrieveUpdateAPIView):
 
 class TestEmailSend(generics.RetrieveUpdateAPIView):
     def get(self, request, *args, **kwargs):
-        send_mail(
-            "Subject here",
-            "kiram to koset from ehsan django web.",
-            "firoozjaieehsan@gmail.com",
-            ["hodakarimirad82@gmail.com"],
-            fail_silently=False,
-        )
+        send_mail('email/hello.tpl', {'name': "Ehsan"}, "admin@admin.com", ["firoozjaieehsan@gmail.com"])
         return Response("email send")
