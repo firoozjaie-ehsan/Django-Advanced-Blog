@@ -5,7 +5,8 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 # from rest_framework.authtoken.views import ObtainAuthToken
-from . import views
+from .. import views
+
 urlpatterns = [
     # registration
     path("registration/", views.RegistrationApiView.as_view(), name ="registration"),
@@ -23,8 +24,5 @@ urlpatterns = [
     path('jwt/create/', views.CustomTokenObtainPairView.as_view(), name ="jwt-create"),
     path('jwt/refresh/', TokenRefreshView.as_view(), name='jwt_refresh'),
     path('jwt/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    
-    #profile
-    path('profile/', views.ProfileAPIView.as_view(), name="profile"),
     
 ]
