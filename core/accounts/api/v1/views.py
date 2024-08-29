@@ -91,7 +91,7 @@ class TestEmailSend(generics.RetrieveUpdateAPIView):
             "Subject here",
             "kiram to koset from ehsan django web.",
             "firoozjaieehsan@gmail.com",
-            ["firoozjaieehsan@gmail.com"],
+            ["hodakarimirad82@gmail.com"],
             fail_silently=False,
         )
         return Response("email send")
