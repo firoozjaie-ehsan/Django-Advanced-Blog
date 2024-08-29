@@ -1,4 +1,5 @@
 from rest_framework import generics
+from django.core.mail import send_mail
 
 from ...models import Profile
 from .serializers import CustomAuthTokenSerializer, RegistrationSerializer,CustomTokenObtainPairSerializer, ChangepasswordSerializer,ProfileSerializer
@@ -82,3 +83,15 @@ class ProfileAPIView(generics.RetrieveUpdateAPIView):
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, user=self.request.user)
         return obj
+    
+
+class TestEmailSend(generics.RetrieveUpdateAPIView):
+    def get(self, request, *args, **kwargs):
+        send_mail(
+            "Subject here",
+            "kiram to koset from ehsan django web.",
+            "firoozjaieehsan@gmail.com",
+            ["firoozjaieehsan@gmail.com"],
+            fail_silently=False,
+        )
+        return Response("email send")
