@@ -1,7 +1,7 @@
 from typing import Dict
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from ...models import User
+from ...models import Profile, User
 from django.core import exceptions
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
@@ -92,3 +92,9 @@ class ChangepasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({'new_password': list(e.messages)})
         return super().validate(attrs)
         
+class ProfileSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(source = "user.email", read_only = True)
+    class Meta:
+        model = Profile
+        fields = ['id','email', 'first_name', 'last_name', 'image', 'description']
+        read_only_fields = ['email']
