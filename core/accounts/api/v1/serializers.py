@@ -1,3 +1,4 @@
+from typing import Dict
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from ...models import User
@@ -6,6 +7,8 @@ from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -64,3 +67,28 @@ class CustomAuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+        validated_data['email'] = self.user.email
+        validated_data['user_id'] = self.user.id
+        
+        return validated_data
+
+class ChangepasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required = True)
+    new_password = serializers.CharField(required = True)
+    new_password1 = serializers.CharField(required = True)
+    
+    def validate(self, attrs):
+        if attrs.get('new_password') != attrs.get('new_password1'):
+            raise serializers.ValidationError({'detail': 'Passwords must match'})
+        
+        try:
+            validate_password(attrs.get('new_password'))
+        except exceptions.ValidationError as e:
+            raise serializers.ValidationError({'new_password': list(e.messages)})
+        return super().validate(attrs)
+        
