@@ -14,10 +14,10 @@ urlpatterns = [
     # test send email
     path('send_email/', views.TestEmailSend.as_view(), name ='send_email'),
     #activation
-    # path("activation/confirm/"),
+    path("activation/confirm/<str:token>", views.ActivationAPIView.as_view(), name ="activation"),
     
     #resend activation
-    # path("activation/resend/"),
+    path("activation/resend/", views.ActivationResendAPIView.as_view(), name ="Activation resend"),
     
     #change password
     path("change_password", views.ChangePasswordView.as_view(), name="change_password"),
