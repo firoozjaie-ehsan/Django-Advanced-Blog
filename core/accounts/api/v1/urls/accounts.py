@@ -12,7 +12,7 @@ urlpatterns = [
     path("registration/", views.RegistrationApiView.as_view(), name ="registration"),
     
     # test send email
-    path('send_email/', views.TestEmailSend.as_view(), name ='send'),
+    path('send_email/', views.TestEmailSend.as_view(), name ='send_email'),
     #activation
     # path("activation/confirm/"),
     
