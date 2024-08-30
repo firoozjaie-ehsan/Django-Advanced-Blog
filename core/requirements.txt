@@ -11,7 +11,12 @@ django-filter
 coreapi
 drf-yasg[validation]
 djoser
+
 #deployment modules
 
 #Email third party modules
 django-mail-templated
+
+#refactoring and test
+black
+flake8
