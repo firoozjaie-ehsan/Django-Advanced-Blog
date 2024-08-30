@@ -13,6 +13,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from ..utils import EmailThread
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User= get_user_model()
 class RegistrationApiView(generics.GenericAPIView):
@@ -88,7 +89,16 @@ class ProfileAPIView(generics.RetrieveUpdateAPIView):
 
 class TestEmailSend(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-        email = EmailMessage('email/hello.tpl', {'name': "Ehsan1"}, "admin@admin.com", ["firoozjaieehsan@gmail.com"])
+        self.email = "firoozjaieehsan@gmail.com"
+        use_obj =get_object_or_404(User, email = self.email)
+        token = self.get_tokens_for_user(use_obj)
+        
+        email = EmailMessage('email/hello.tpl', {'token': token}, "admin@admin.com", [self.email])
         # TODO: Add more useful commands here.
         EmailThread(email).start()
         return Response("email send")
+    
+    def get_tokens_for_user(self,user):
+        refresh = RefreshToken.for_user(user)
+
+        return str(refresh.access_token)
