@@ -1,5 +1,5 @@
 from rest_framework import generics
-from mail_templated import send_mail
+from mail_templated import EmailMessage
 from ...models import Profile
 from .serializers import CustomAuthTokenSerializer, RegistrationSerializer,CustomTokenObtainPairSerializer, ChangepasswordSerializer,ProfileSerializer
 from rest_framework.response import Response
@@ -12,6 +12,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from ..utils import EmailThread
+
 User= get_user_model()
 class RegistrationApiView(generics.GenericAPIView):
     serializer_class = RegistrationSerializer
@@ -86,5 +88,7 @@ class ProfileAPIView(generics.RetrieveUpdateAPIView):
 
 class TestEmailSend(generics.RetrieveUpdateAPIView):
     def get(self, request, *args, **kwargs):
-        send_mail('email/hello.tpl', {'name': "Ehsan"}, "admin@admin.com", ["firoozjaieehsan@gmail.com"])
+        email = EmailMessage('email/hello.tpl', {'name': "Ehsan1"}, "admin@admin.com", ["firoozjaieehsan@gmail.com"])
+        # TODO: Add more useful commands here.
+        EmailThread(email).start()
         return Response("email send")
