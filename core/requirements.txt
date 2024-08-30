@@ -10,7 +10,7 @@ markdown
 django-filter
 coreapi
 drf-yasg[validation]
-
+djoser
 #deployment modules
 
 #Email third party modules
