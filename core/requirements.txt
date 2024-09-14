@@ -5,15 +5,12 @@ python-decouple
 Pillow
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
-
 #third party modules
 markdown
 django-filter
 coreapi
 drf-yasg[validation]
 djoser
-django-cors-headers
-
 
 #deployment modules
 
