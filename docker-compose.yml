@@ -25,9 +25,10 @@ services:
     depends_on:
       - redis
 
-  worker:
+  celery_worker:
     build: ./core
     command : celery -A core worker --loglevel=info
+    container_name: celery_worker
     volumes:
       - ./core:/app
     depends_on:
