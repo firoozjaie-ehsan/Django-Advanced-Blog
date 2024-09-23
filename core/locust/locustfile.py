@@ -1,15 +1,17 @@
 from locust import HttpUser, task
-
+import os
 
 class QuickstartUser(HttpUser):
     pass
 
     def on_start(self):
+        email = os.getenv("EMAIL")
+        password = os.getenv("PASSWORD")
         response = self.client.post(
             "/accounts/api/v2/jwt/create/",
             data={
-                "email": "admin@admin.com",
-                "password": "Ee@9117409534",
+                "email": email,
+                "password": password,
             },
         ).json()
         self.client.headers = {
