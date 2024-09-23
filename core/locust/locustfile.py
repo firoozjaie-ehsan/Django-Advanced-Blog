@@ -1,6 +1,7 @@
 from locust import HttpUser, task
 import os
 
+
 class QuickstartUser(HttpUser):
     pass
 
