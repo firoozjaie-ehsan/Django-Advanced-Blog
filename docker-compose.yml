@@ -38,8 +38,9 @@ services:
       - ServerOptions__Urls=http://*:80
       - ServerOptions__HostName=smtp4dev
 
-  master:
+  locust_worker:
     image: locustio/locust
+    container_name: locust_worker
     ports:
      - "8089:8089"
     volumes:
