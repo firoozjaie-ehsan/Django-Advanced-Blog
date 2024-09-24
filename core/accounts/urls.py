@@ -10,5 +10,4 @@ urlpatterns = [
     path("api/v2/", include("djoser.urls.jwt")),
     path("send_email/", views.send_email, name="send_email"),
     path("test/", views.test, name="test"),
-    
 ]
